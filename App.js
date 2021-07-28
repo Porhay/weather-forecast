@@ -9,7 +9,18 @@ import { CalendarList } from 'react-native-calendars';
 // import CustomIcon from './CustomIcon'
 import Icon from 'react-native-vector-icons/Fontisto';
 
+
+import { setListening } from "./redux/actions";
+
+
+import BottomSheet from "./src/components/bottom-sheet";
+
+import {  } from "react-redux";
+
+
 const App = () => {
+
+  
 
   const toCelsius = (kelvins) => kelvins - 273.15 // °C 
 
@@ -18,6 +29,7 @@ const App = () => {
 
   const [data, setData] = useState([])
 
+  
 
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -61,12 +73,16 @@ const App = () => {
 
       if(newCurrentDate === newAPIDate){
         
+
+
         // show weather info for current day you tap in calendar
         const winfo = newAPIDate + '  deg: ' + toCelsius(element.temp.day).toFixed(2) + ' °C  ' + element.weather[0].description
         const key = element.weather[0].icon // 10d, 01d ...
-        
+        console.log(key);
         setIconSelector(key)
         setWeatherInfo(winfo)
+
+        
 
       }
     })
@@ -87,9 +103,15 @@ const App = () => {
           <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 20}}>
             {iconSelector === '10d' ? <Icon name="day-rain" size={50} color="#000" /> : null}
             {iconSelector === '01d' ? <Icon name="day-sunny" size={50} color="#000" /> : null}
+            {iconSelector === '04d' ? <Icon name="cloudy" size={50} color="#000" /> : null}
+            {iconSelector === '03d' ? <Icon name="day-cloudy" size={50} color="#000" /> : null}
+            {iconSelector === '02d' ? <Icon name="day-cloudy" size={50} color="#000" /> : null}
+
             <Text style={{marginLeft: 20, fontSize: 17}}>{weatherInfo}</Text>
           </View>
-          
+
+          <BottomSheet />
+
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -147,3 +169,28 @@ export default App;
     // ).catch(function (error) {
     //   console.error(error);
     // })
+
+
+
+    // Необходимо создать мобильное приложение с отображением погоды в одной локации на несколько дней (14).
+    // Город выбираете на свое усмотрение. Использовать для получения информации о погоде API:
+    // https://bit.ly/3hJ1TAn (регистрация бесплатная). Вывести данную информацию о погоде в виде календаря 
+    // (обычный календарь, при нажатии на выбранную дату отображать информацию о погоде на день).  
+    
+    // Также требуется отобразить данные о погоде на 2 будущие недели и вывести эту информацию в виде одного списка 
+    // (section list (primary condition), title - first week\second week, 
+    // data - days of the week+information about weather of each day)
+    
+    // Additional req:
+    
+    // RN CLI (if you don’t have a MAC make only Android ver.)
+    // Use React Navigation 5 ver.
+    // Use REDUX (Saga for all APIs requests)
+    // Use Hooks
+    
+    // To be a plus: 
+    
+    // Use customize Fonts
+    // Animate slider and section list 
+    // Use SVG images (https://bit.ly/36DsSXJ)
+    // Use bottom-sheet for section list
