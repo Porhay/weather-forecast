@@ -1,5 +1,5 @@
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
@@ -16,6 +16,8 @@ const App = () => {
   const [weatherInfo, setWeatherInfo] = useState('')
   const [iconSelector, setIconSelector] = useState('')
 
+  const [data, setData] = useState([])
+
 
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -23,7 +25,8 @@ const App = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const dailyForecastData = (day) => {
+  
+  const getDataFromAPI = () => {
     const options = {
       method: 'GET',
       url: 'https://community-open-weather-map.p.rapidapi.com/forecast/daily',
@@ -38,33 +41,35 @@ const App = () => {
         'x-rapidapi-key': 'ae5947fa48msha5c686a990c2820p1c9c11jsna144715fe038',
         'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com'
       }
-    };
+    }
+    return axios.request(options)
+  }
 
-    axios.request(options).then((response) => {
-
-      const arr = response.data.list
-
-      arr.forEach(element => {
-        const newCurrentDate = new Date(day.timestamp).toLocaleDateString()
-        const newAPIDate = new Date(element.dt * 1000).toLocaleDateString()
-
-        if(newCurrentDate === newAPIDate){
-          // show weather info for current day you tap in calendar
-          const winfo = newAPIDate + '  deg: ' + toCelsius(element.temp.day).toFixed(2) + ' °C  ' + element.weather[0].description
-          const key = element.weather[0].icon // 10d, 01d ...
-          console.log(key);
-          setIconSelector(key)
-
-          setWeatherInfo(winfo)
-
-        }
-      })
-
-    })
-    .catch(function (error) {
+  useEffect(() => {
+    getDataFromAPI().then((response) => {
+      setData(response.data.list)
+    }).catch(function (error) {
       console.error(error);
     })
+  }, [])
 
+
+  const dailyForecastData = (day) => {
+    data.forEach(element => {
+      const newCurrentDate = new Date(day.timestamp).toLocaleDateString()
+      const newAPIDate = new Date(element.dt * 1000).toLocaleDateString()
+
+      if(newCurrentDate === newAPIDate){
+        
+        // show weather info for current day you tap in calendar
+        const winfo = newAPIDate + '  deg: ' + toCelsius(element.temp.day).toFixed(2) + ' °C  ' + element.weather[0].description
+        const key = element.weather[0].icon // 10d, 01d ...
+        
+        setIconSelector(key)
+        setWeatherInfo(winfo)
+
+      }
+    })
   }
 
   return (
@@ -79,7 +84,7 @@ const App = () => {
               onDayPress={(day) => dailyForecastData(day)}
             />
             
-          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 20,}}>
+          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 20}}>
             {iconSelector === '10d' ? <Icon name="day-rain" size={50} color="#000" /> : null}
             {iconSelector === '01d' ? <Icon name="day-sunny" size={50} color="#000" /> : null}
             <Text style={{marginLeft: 20, fontSize: 17}}>{weatherInfo}</Text>
