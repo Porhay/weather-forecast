@@ -25,7 +25,7 @@ export default class BottomSheet extends Component {
         const { start } = this.props
 
         return(
-            <View>
+            <View style={{ margin: 20}}>
                 <TouchableOpacity onPress={this.startListenerTapped}>
                     <Text>Make True</Text>
                 </TouchableOpacity>
