@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import { setListening } from "../redux/actions";
+import {connect} from 'react-redux';
 
-export default class BottomSheet extends Component {
+class BottomSheet extends Component {
 
     constructor(props) {
         super(props)
@@ -12,30 +12,43 @@ export default class BottomSheet extends Component {
         }
     }
 
-    startListenerTapped = () => {
-        this.props.setListening(true)
-    }
-
-    stopListenerTapped = () => {
-        this.props.setListening(false)
-    }
-
+    
     render() {
 
-        const { start } = this.props
+        const { counter } = this.props
 
         return(
             <View style={{ margin: 20}}>
-                <TouchableOpacity onPress={this.startListenerTapped}>
+                <TouchableOpacity onPress={() => {
+                    this.props.increaseCounter();
+                }}>
                     <Text>Make True</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={this.stopListenerTapped}>
+                <TouchableOpacity onPress={() => {
+                    this.props.decreaseCounter();
+                }}>
                     <Text>Make False</Text>
                 </TouchableOpacity>
-                {/* <Text>{start}</Text> */}
+                <Text>{counter}</Text>
             </View>
            
         )
     }
 }
+
+function mapStateToProps(state) {
+    return {
+      counter: state.counter,
+    };
+  }
+  
+  function mapDispatchToProps(dispatch) {
+    return {
+      increaseCounter: () => dispatch({type: 'INCREASE_COUNTER'}),
+      decreaseCounter: () => dispatch({type: 'DECREASE_COUNTER'}),
+    };
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(BottomSheet);
+  
