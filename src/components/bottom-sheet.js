@@ -43,12 +43,12 @@ function mapStateToProps(state) {
     };
   }
   
-  function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch) {
     return {
       increaseCounter: () => dispatch({type: 'INCREASE_COUNTER'}),
       decreaseCounter: () => dispatch({type: 'DECREASE_COUNTER'}),
     };
-  }
+}
   
-  export default connect(mapStateToProps, mapDispatchToProps)(BottomSheet);
+export default connect(mapStateToProps, mapDispatchToProps)(BottomSheet);
   

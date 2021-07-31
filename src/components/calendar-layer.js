@@ -51,11 +51,15 @@ const CalendarLayer = () => {
 
   const dailyForecastData = (day) => {
     data.forEach(element => {
+      
       const newCurrentDate = new Date(day.timestamp).toLocaleDateString()
+      
       const newAPIDate = new Date(element.dt * 1000).toLocaleDateString()
 
       if(newCurrentDate === newAPIDate){
         
+        
+
         // show weather info for current day you tap in calendar
         const winfo = newAPIDate + '  deg: ' + toCelsius(element.temp.day).toFixed(2) + ' °C  ' + element.weather[0].description
         const key = element.weather[0].icon // 10d, 01d ...
