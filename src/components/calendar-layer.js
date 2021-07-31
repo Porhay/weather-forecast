@@ -51,13 +51,19 @@ const CalendarLayer = () => {
 
   const dailyForecastData = (day) => {
     data.forEach(element => {
-      const newCurrentDate = new Date(day.timestamp).toLocaleDateString()
+      const newCurrentDate = new Date(day.timestamp + 36000000).toLocaleDateString()
       const newAPIDate = new Date(element.dt * 1000).toLocaleDateString()
 
       if(newCurrentDate === newAPIDate){
         
-        // show weather info for current day you tap in calendar
-        const winfo = newAPIDate + '  deg: ' + toCelsius(element.temp.day).toFixed(2) + ' °C  ' + element.weather[0].description
+        // show weather info for current day you tap in calendar  '  deg: ' + ' °C  ' 
+        const mornDeg = toCelsius(element.temp.morn).toFixed(2)
+        const dayDeg = toCelsius(element.temp.day).toFixed(2)
+        const eveDeg = toCelsius(element.temp.eve).toFixed(2)
+
+        const winfo = newAPIDate + '  ' + element.weather[0].description + '\n' + 
+        'morn: ' + mornDeg + '  ' + 'day: ' + dayDeg + '  ' + 'eve: ' + eveDeg 
+
         const key = element.weather[0].icon // 10d, 01d ...
 
         setIconSelector(key)
@@ -83,7 +89,7 @@ const CalendarLayer = () => {
           {iconSelector === '03d' ? <Icon name="day-cloudy" size={50} color="#000" /> : null}
           {iconSelector === '02d' ? <Icon name="day-cloudy" size={50} color="#000" /> : null}
 
-          <Text style={{marginLeft: 20, fontSize: 17}}>{weatherInfo}</Text>
+          <Text style={{marginLeft: 20, fontSize: 17, flex: 1, flexDirection: 'row', alignItems: 'center',}}>{weatherInfo}</Text>
         </View>
 
       </View>
