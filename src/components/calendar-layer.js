@@ -51,7 +51,9 @@ const CalendarLayer = () => {
 
   const dailyForecastData = (day) => {
     data.forEach(element => {
+
       const newCurrentDate = new Date(day.timestamp + 36000000).toLocaleDateString()
+
       const newAPIDate = new Date(element.dt * 1000).toLocaleDateString()
 
       if(newCurrentDate === newAPIDate){
@@ -63,6 +65,7 @@ const CalendarLayer = () => {
 
         const winfo = newAPIDate + '  ' + element.weather[0].description + '\n' + 
         'morn: ' + mornDeg + '  ' + 'day: ' + dayDeg + '  ' + 'eve: ' + eveDeg 
+
 
         const key = element.weather[0].icon // 10d, 01d ...
 
