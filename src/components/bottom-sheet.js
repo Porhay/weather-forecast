@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Text, TouchableOpacity, View } from 'react-native';
 
 import {connect} from 'react-redux';
+import { increaseCounter, decreaseCounter } from "../redux/actions/counts";
 
 class BottomSheet extends Component {
 
@@ -12,7 +13,6 @@ class BottomSheet extends Component {
         }
     }
 
-    
     render() {
 
         const { counter } = this.props
@@ -20,33 +20,32 @@ class BottomSheet extends Component {
         return(
             <View style={{ margin: 20}}>
                 <TouchableOpacity onPress={() => {
-                    this.props.increaseCounter();
+                    this.props.increaseCounter2()
                 }}>
                     <Text>Make True</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => {
-                    this.props.decreaseCounter();
+                    this.props.decreaseCounter2();
                 }}>
                     <Text>Make False</Text>
                 </TouchableOpacity>
                 <Text>{counter}</Text>
             </View>
-           
         )
     }
 }
 
 function mapStateToProps(state) {
     return {
-      counter: state.counter,
+      counter: state.countReducer.counter,
     };
   }
   
 function mapDispatchToProps(dispatch) {
     return {
-      increaseCounter: () => dispatch({type: 'INCREASE_COUNTER'}),
-      decreaseCounter: () => dispatch({type: 'DECREASE_COUNTER'}),
+      increaseCounter2: () => dispatch(increaseCounter()),
+      decreaseCounter2: () => dispatch(decreaseCounter()),
     };
 }
   

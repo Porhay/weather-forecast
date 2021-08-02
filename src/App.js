@@ -2,6 +2,8 @@
 import React from 'react';
 import { SafeAreaView, StatusBar, useColorScheme } from 'react-native';
 
+
+
 // COMPONENTS
 import BottomSheet from "./components/bottom-sheet";
 import CalendarLayer from "./components/calendar-layer";
@@ -24,6 +26,7 @@ const App = () => {
       </SafeAreaView>
   );
 };
+
 
 export default App;
 

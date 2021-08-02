@@ -1,8 +1,13 @@
-import { COUNTER_CHANGE } from '../constants';
+import { INCREASE_COUNTER, DECREASE_COUNTER } from '../constants';
 
-export function changeCount(count) {
+export function increaseCounter() {
     return {
-        type: COUNTER_CHANGE,
-        payload: count
+        type: INCREASE_COUNTER,
+    }
+}
+
+export function decreaseCounter() {
+    return {
+        type: DECREASE_COUNTER,
     }
 }

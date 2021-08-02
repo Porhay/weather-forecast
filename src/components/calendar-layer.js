@@ -1,11 +1,11 @@
 
 import React, {useState, useEffect} from 'react';
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View } from 'react-native';
+import { SafeAreaView, ScrollView, StatusBar, Text, useColorScheme, View, StyleSheet } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import axios from "axios";
 
-import { CalendarList } from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
 // import CustomIcon from './CustomIcon'
 import Icon from 'react-native-vector-icons/Fontisto';
 
@@ -79,25 +79,69 @@ const CalendarLayer = () => {
   return (
     <ScrollView>
       <View style={{ backgroundColor: isDarkMode ? Colors.black : Colors.white }}>
-        <CalendarList
-            horizontal={true}
-            pagingEnabled={true}
-            onDayPress={(day) => dailyForecastData(day)}
-          />
+        <View style={styles.calendarWrapper}>
+          <View style={{ margin: 6 }}>
+            <Calendar
+                horizontal={true}
+                pagingEnabled={true}
+                onDayPress={(day) => dailyForecastData(day)}
+                pastScrollRange={30}
+                futureScrollRange={30}
+                pagingEnabled={true}              
+            />
+          </View>
+        </View>
+        
+        
           
-        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 20}}>
+        <View style={styles.showWeatherContainer}>
           {iconSelector === '10d' ? <Icon name="day-rain" size={50} color="#000" /> : null}
           {iconSelector === '01d' ? <Icon name="day-sunny" size={50} color="#000" /> : null}
           {iconSelector === '04d' ? <Icon name="cloudy" size={50} color="#000" /> : null}
           {iconSelector === '03d' ? <Icon name="day-cloudy" size={50} color="#000" /> : null}
           {iconSelector === '02d' ? <Icon name="day-cloudy" size={50} color="#000" /> : null}
 
-          <Text style={{marginLeft: 20, fontSize: 17, flex: 1, flexDirection: 'row', alignItems: 'center',}}>{weatherInfo}</Text>
+          <Text style={styles.showWeatherText}>{weatherInfo}</Text>
         </View>
 
       </View>
     </ScrollView>
   )
 }
+
+
+const styles = StyleSheet.create({
+  calendarWrapper: {
+    borderRadius: 20, 
+    margin: 10, 
+    shadowColor: 'black', 
+    backgroundColor: 'white',
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 3
+    },
+    shadowRadius: 5,
+    shadowOpacity: 1.0,
+    elevation: 3
+  },
+
+  showWeatherContainer: {
+    flex: 1, 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    marginLeft: 20
+  },
+
+  showWeatherText: {
+    marginLeft: 20, 
+    fontSize: 17, 
+    flex: 1, 
+    flexDirection: 'row', 
+    alignItems: 'center',
+  },
+
+})
+
 
 export default CalendarLayer
