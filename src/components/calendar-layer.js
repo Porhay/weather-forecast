@@ -114,9 +114,8 @@ const styles = StyleSheet.create({
   calendarWrapper: {
     borderRadius: 20, 
     margin: 10, 
-    shadowColor: 'black', 
     backgroundColor: 'white',
-    shadowColor: 'black',
+    shadowColor: 'black', 
     shadowOffset: {
       width: 0,
       height: 3
@@ -130,7 +129,20 @@ const styles = StyleSheet.create({
     flex: 1, 
     flexDirection: 'row', 
     alignItems: 'center', 
-    marginLeft: 20
+    margin: 10,
+    padding: 8,
+    borderRadius: 16, 
+    backgroundColor: '#FFF',
+
+    // shadow
+    shadowColor: 'black', 
+    shadowOffset: {
+      width: 0,
+      height: 3
+    },
+    shadowRadius: 5,
+    shadowOpacity: 1.0,
+    elevation: 3
   },
 
   showWeatherText: {
