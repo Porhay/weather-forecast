@@ -6,17 +6,18 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import axios from "axios";
 
 import { Calendar } from 'react-native-calendars';
-// import CustomIcon from './CustomIcon'
 import Icon from 'react-native-vector-icons/Fontisto';
 
 
-const CalendarLayer = () => {
+import {connect} from 'react-redux';
+import { increaseCounter, decreaseCounter, clearData } from "../redux/actions/counts";
+
+const CalendarLayer = ({clearData}) => {
 
   const toCelsius = (kelvins) => kelvins - 273.15 // °C 
 
   const [weatherInfo, setWeatherInfo] = useState('')
-  const [iconSelector, setIconSelector] = useState('')
-
+  const [iconSelector, setIconSelector] = useState(null)
   const [data, setData] = useState([])
 
   const isDarkMode = useColorScheme() === 'dark';
@@ -84,7 +85,11 @@ const CalendarLayer = () => {
             <Calendar
                 horizontal={true}
                 pagingEnabled={true}
-                onDayPress={(day) => dailyForecastData(day)}
+                onDayPress={(day) => {
+                  dailyForecastData(day)
+                  clearData()
+                }}
+                
                 pastScrollRange={30}
                 futureScrollRange={30}
                 pagingEnabled={true}              
@@ -92,23 +97,38 @@ const CalendarLayer = () => {
           </View>
         </View>
         
+        {
+          iconSelector === null ? null : 
+            <View style={styles.showWeatherContainer}>
+              {iconSelector === '10d' ? <Icon name="day-rain" size={50} color="#000" /> : null}
+              {iconSelector === '01d' ? <Icon name="day-sunny" size={50} color="#000" /> : null}
+              {iconSelector === '04d' ? <Icon name="cloudy" size={50} color="#000" /> : null}
+              {iconSelector === '03d' ? <Icon name="day-cloudy" size={50} color="#000" /> : null}
+              {iconSelector === '02d' ? <Icon name="day-cloudy" size={50} color="#000" /> : null}
+
+              <Text style={styles.showWeatherText}>{weatherInfo}</Text>
+            </View>
+        }
         
-          
-        <View style={styles.showWeatherContainer}>
-          {iconSelector === '10d' ? <Icon name="day-rain" size={50} color="#000" /> : null}
-          {iconSelector === '01d' ? <Icon name="day-sunny" size={50} color="#000" /> : null}
-          {iconSelector === '04d' ? <Icon name="cloudy" size={50} color="#000" /> : null}
-          {iconSelector === '03d' ? <Icon name="day-cloudy" size={50} color="#000" /> : null}
-          {iconSelector === '02d' ? <Icon name="day-cloudy" size={50} color="#000" /> : null}
-
-          <Text style={styles.showWeatherText}>{weatherInfo}</Text>
-        </View>
-
       </View>
     </ScrollView>
   )
 }
 
+
+function mapStateToProps(state) {
+  return {
+    counter: state.countReducer.counter,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    increaseCounter: () => dispatch(increaseCounter),
+    decreaseCounter: () => dispatch(decreaseCounter),
+    clearData: () => dispatch(clearData),
+  };
+}
 
 const styles = StyleSheet.create({
   calendarWrapper: {
@@ -156,4 +176,6 @@ const styles = StyleSheet.create({
 })
 
 
-export default CalendarLayer
+// export default CalendarLayer
+
+export default connect(mapStateToProps, mapDispatchToProps)(CalendarLayer);

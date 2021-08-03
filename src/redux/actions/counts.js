@@ -1,4 +1,4 @@
-import { INCREASE_COUNTER, DECREASE_COUNTER } from '../constants';
+import { INCREASE_COUNTER, DECREASE_COUNTER, CLEAR_DATA } from '../constants';
 
 export function increaseCounter() {
     return {
@@ -11,3 +11,7 @@ export function decreaseCounter() {
         type: DECREASE_COUNTER,
     }
 }
+
+export const clearData = {
+    type: CLEAR_DATA,
+};
