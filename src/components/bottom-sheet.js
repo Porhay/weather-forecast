@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 
 import {connect} from 'react-redux';
-import { increaseCounter, decreaseCounter } from "../redux/actions/counts";
+import { increaseCounter, decreaseCounter } from "../redux/actions";
 
 class BottomSheet extends Component {
 
@@ -39,7 +39,7 @@ class BottomSheet extends Component {
 
 function mapStateToProps(state) {
     return {
-      counter: state.countReducer.counter,
+      counter: state.count.counter,
     };
   }
   

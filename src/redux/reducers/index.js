@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
 import countReducer from './countReducer'
+import dataReducer from './dataReducer'
 
 const rootReducer = combineReducers({
-    countReducer
+    count: countReducer,
+    data: dataReducer,
 })
 
 export default rootReducer

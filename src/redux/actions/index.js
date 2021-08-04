@@ -1,4 +1,4 @@
-import { INCREASE_COUNTER, DECREASE_COUNTER, CLEAR_DATA } from '../constants';
+import { INCREASE_COUNTER, DECREASE_COUNTER, CLEAR_DATA, FETCHING_DATA } from '../constants';
 
 export function increaseCounter() {
     return {
@@ -15,3 +15,11 @@ export function decreaseCounter() {
 export const clearData = {
     type: CLEAR_DATA,
 };
+
+
+
+export function fetchData() {
+    return {
+        type: FETCHING_DATA,
+    }
+}

@@ -10,9 +10,12 @@ import Icon from 'react-native-vector-icons/Fontisto';
 
 
 import {connect} from 'react-redux';
-import { increaseCounter, decreaseCounter, clearData } from "../redux/actions/counts";
+import { increaseCounter, decreaseCounter, clearData, fetchData } from "../redux/actions";
 
-const CalendarLayer = ({clearData}) => {
+
+const CalendarLayer = (props) => {
+
+  const { clearData, increaseCounter } = props
 
   const toCelsius = (kelvins) => kelvins - 273.15 // °C 
 
@@ -87,7 +90,8 @@ const CalendarLayer = ({clearData}) => {
                 pagingEnabled={true}
                 onDayPress={(day) => {
                   dailyForecastData(day)
-                  clearData()
+                  // clearData()
+                  increaseCounter()
                 }}
                 
                 pastScrollRange={30}
@@ -118,15 +122,17 @@ const CalendarLayer = ({clearData}) => {
 
 function mapStateToProps(state) {
   return {
-    counter: state.countReducer.counter,
+    counter: state.count.counter,
+    data: state.data.data,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    increaseCounter: () => dispatch(increaseCounter),
-    decreaseCounter: () => dispatch(decreaseCounter),
+    increaseCounter: () => dispatch(increaseCounter()),
+    decreaseCounter: () => dispatch(decreaseCounter()),
     clearData: () => dispatch(clearData),
+    fetchData: () => dispatch(fetchData()),
   };
 }
 
@@ -175,7 +181,5 @@ const styles = StyleSheet.create({
 
 })
 
-
-// export default CalendarLayer
 
 export default connect(mapStateToProps, mapDispatchToProps)(CalendarLayer);
